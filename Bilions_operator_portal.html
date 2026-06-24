@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bilions Operator Portal V3</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+:root{
+
+--bg:#f7f8fa;
+
+--card:#ffffff;
+
+--border:#e5e7eb;
+
+--primary:#2563eb;
+--primary-light:#eff6ff;
+
+--green:#16a34a;
+--green-light:#dcfce7;
+
+--orange:#ea580c;
+--orange-light:#ffedd5;
+
+--purple:#7c3aed;
+--purple-light:#ede9fe;
+
+--red:#dc2626;
+--red-light:#fee2e2;
+
+--text:#111827;
+--subtext:#6b7280;
+
+--shadow:
+0 2px 10px rgba(0,0,0,.04);
+
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+display:flex;
+height:100vh;
+overflow:hidden;
+}
+
+/* ===========================
+SIDEBAR
+=========================== */
+
+.sidebar{
+
+width:250px;
+
+background:white;
+
+border-right:1px solid var(--border);
+
+display:flex;
+flex-direction:column;
+
+}
+
+.logo{
+
+height:70px;
+
+display:flex;
+align-items:center;
+
+padding:0 20px;
+
+font-size:18px;
+font-weight:700;
+
+border-bottom:1px solid var(--border);
+
+}
+
+.sidebar-menu{
+padding:15px;
+}
+
+.sidebar-menu a{
+
+display:block;
+
+padding:12px 15px;
+
+margin-bottom:8px;
+
+border-radius:8px;
+
+text-decoration:none;
+
+font-size:14px;
+font-weight:500;
+
+color:var(--text);
+
+cursor:pointer;
+
+transition:.2s;
+}
+
+.sidebar-menu a:hover{
+
+background:var(--primary-light);
+color:var(--primary);
+
+}
+
+.sidebar-menu a.active{
+
+background:var(--primary);
+color:white;
+
+}
+
+/* ===========================
+MAIN
+=========================== */
+
+.main{
+
+flex:1;
+
+overflow:auto;
+
+}
+
+.header{
+
+height:70px;
+
+background:white;
+
+border-bottom:1px solid var(--border);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:0 25px;
+
+}
+
+.header-title{
+
+font-size:18px;
+font-weight:600;
+
+}
+
+.operator-section{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.operator-name{
+
+font-size:14px;
+font-weight:600;
+
+}
+
+.logout-btn{
+
+background:#ef4444;
+color:white;
+
+border:none;
+
+padding:8px 16px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+
+.content{
+padding:20px;
+}
+
+.module{
+display:none;
+}
+
+.module.active{
+display:block;
+}
+
+.section-title{
+
+font-size:24px;
+font-weight:700;
+
+margin-bottom:20px;
+}
+
+/* ===========================
+FILTERS
+=========================== */
+
+.filter-card{
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:10px;
+
+padding:15px;
+
+margin-bottom:20px;
+
+display:flex;
+flex-wrap:wrap;
+
+gap:10px;
+
+align-items:center;
+
+box-shadow:var(--shadow);
+
+}
+
+.filter-card input,
+.filter-card select{
+
+height:40px;
+
+padding:0 12px;
+
+border:1px solid var(--border);
+
+border-radius:6px;
+
+outline:none;
+
+}
+
+/* ===========================
+BUTTONS
+=========================== */
+
+.primary-btn{
+
+height:40px;
+
+padding:0 18px;
+
+border:none;
+
+background:var(--primary);
+
+color:white;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+
+.download-btn{
+
+height:40px;
+
+padding:0 18px;
+
+border:none;
+
+background:var(--green);
+
+color:white;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.export-select{
+
+height:40px;
+
+padding:0 12px;
+
+border:1px solid var(--border);
+
+border-radius:6px;
+
+background:white;
+
+}
+
+/* ===========================
+KPI CARDS
+=========================== */
+
+.kpi-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.kpi-card{
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+padding:18px;
+
+box-shadow:var(--shadow);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.kpi-left{
+display:flex;
+flex-direction:column;
+}
+
+.kpi-title{
+
+font-size:13px;
+color:var(--subtext);
+
+margin-bottom:8px;
+
+}
+
+.kpi-value{
+
+font-size:26px;
+font-weight:700;
+
+}
+
+.kpi-icon{
+
+width:48px;
+height:48px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+border-radius:12px;
+
+font-size:20px;
+font-weight:700;
+
+}
+
+.blue{
+background:var(--primary-light);
+color:var(--primary);
+}
+
+.green{
+background:var(--green-light);
+color:var(--green);
+}
+
+.orange{
+background:var(--orange-light);
+color:var(--orange);
+}
+
+.purple{
+background:var(--purple-light);
+color:var(--purple);
+}
+
+.red{
+background:var(--red-light);
+color:var(--red);
+}
+
+/* ===========================
+CHARTS
+=========================== */
+
+.chart-grid{
+
+display:grid;
+
+grid-template-columns:
+2fr 2fr 1fr;
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.chart-card{
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+padding:20px;
+
+box-shadow:var(--shadow);
+
+}
+
+.chart-title{
+
+font-size:16px;
+font-weight:600;
+
+margin-bottom:15px;
+
+}
+
+/* ===========================
+TABLES
+=========================== */
+
+.table-card{
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+padding:15px;
+
+box-shadow:var(--shadow);
+
+overflow:auto;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1200px;
+
+}
+
+thead{
+
+position:sticky;
+
+top:0;
+
+background:white;
+
+z-index:10;
+
+}
+
+th{
+
+padding:12px;
+
+background:#f9fafb;
+
+font-size:13px;
+
+text-align:left;
+
+border-bottom:1px solid var(--border);
+
+}
+
+td{
+
+padding:12px;
+
+font-size:13px;
+
+border-bottom:1px solid var(--border);
+
+}
+
+tbody tr:nth-child(even){
+
+background:#fafafa;
+
+}
+
+tbody tr:hover{
+
+background:#f3f4f6;
+
+}
+
+.positive{
+
+color:var(--green);
+font-weight:600;
+
+}
+
+.negative{
+
+color:var(--red);
+font-weight:600;
+
+}
+
+/* ===========================
+PAGINATION
+=========================== */
+
+.pagination{
+
+display:flex;
+
+gap:8px;
+
+margin-top:15px;
+
+}
+
+.page-btn{
+
+padding:7px 14px;
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+
+/* ===========================
+PLAYER MODAL
+=========================== */
+
+.player-modal{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.4);
+
+z-index:999;
+
+}
+
+.player-modal-content{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:translate(-50%,-50%);
+
+width:95%;
+max-width:1400px;
+
+height:90vh;
+
+overflow:auto;
+
+background:white;
+
+border-radius:12px;
+
+padding:25px;
+
+}
+
+.close-modal{
+
+float:right;
+
+font-size:24px;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+/* NEW PLAYER INFO STYLE */
+
+.info-section{
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:12px;
+
+padding:20px;
+
+margin-bottom:20px;
+
+}
+
+.info-title{
+
+font-size:18px;
+font-weight:600;
+
+margin-bottom:20px;
+
+}
+
+.info-grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:30px;
+
+}
+
+.info-item{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:10px 0;
+
+border-bottom:1px solid #f1f5f9;
+
+}
+
+.info-label{
+
+color:var(--subtext);
+
+font-size:13px;
+
+}
+
+.info-value{
+
+font-weight:600;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="logo">
+Bilions Operator Portal
+</div>
+
+<div class="sidebar-menu">
+
+<a class="active" onclick="showModule('dashboard')">
+Dashboard
+</a>
+
+<a onclick="showModule('dailycoins')">
+Daily Coins Report
+</a>
+
+<a onclick="showModule('spinaudit')">
+Spin Audit Log
+</a>
+
+<a onclick="showModule('playerreport')">
+Player Report
+</a>
+
+<a onclick="showModule('settings')">
+Settings
+</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="header">
+
+<div class="header-title">
+Bilions Operator Portal
+</div>
+
+<div class="operator-section">
+
+<div class="operator-name">
+Bilions Operator
+</div>
+
+<button class="logout-btn">
+Logout
+</button>
+
+</div>
+
+</div>
+
+<div class="content"><!-- ===================================================== -->
+<!-- DASHBOARD MODULE -->
+<!-- ===================================================== -->
+
+<div id="dashboard" class="module active">
+
+<h2 class="section-title">
+Dashboard
+</h2>
+
+<div class="filter-card">
+
+<select>
+
+<option>Today</option>
+<option>Yesterday</option>
+<option selected>Last 7 Days</option>
+<option>Last 30 Days</option>
+<option>Custom Range</option>
+
+</select>
+
+<input type="date">
+
+<input type="date">
+
+<button class="primary-btn">
+Apply
+</button>
+
+</div>
+
+<!-- KPI CARDS -->
+
+<div class="kpi-grid">
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Total Games Played
+</div>
+
+<div class="kpi-value">
+27
+</div>
+
+</div>
+
+<div class="kpi-icon blue">
+🎮
+</div>
+
+</div>
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Active Players
+</div>
+
+<div class="kpi-value">
+1,248
+</div>
+
+</div>
+
+<div class="kpi-icon green">
+👤
+</div>
+
+</div>
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Inactive Players
+</div>
+
+<div class="kpi-value">
+534
+</div>
+
+</div>
+
+<div class="kpi-icon orange">
+⏸
+</div>
+
+</div>
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Total Spins
+</div>
+
+<div class="kpi-value">
+85,463
+</div>
+
+</div>
+
+<div class="kpi-icon purple">
+🎯
+</div>
+
+</div>
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Total Bet Amount
+</div>
+
+<div class="kpi-value">
+$125,450
+</div>
+
+</div>
+
+<div class="kpi-icon blue">
+💰
+</div>
+
+</div>
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Total Win Amount
+</div>
+
+<div class="kpi-value">
+$97,250
+</div>
+
+</div>
+
+<div class="kpi-icon green">
+🏆
+</div>
+
+</div>
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Total Loss Amount
+</div>
+
+<div class="kpi-value">
+$28,200
+</div>
+
+</div>
+
+<div class="kpi-icon red">
+📉
+</div>
+
+</div>
+
+<div class="kpi-card">
+
+<div class="kpi-left">
+
+<div class="kpi-title">
+Average Bet Size
+</div>
+
+<div class="kpi-value">
+$1.46
+</div>
+
+</div>
+
+<div class="kpi-icon orange">
+📊
+</div>
+
+</div>
+
+</div>
+
+<!-- CHARTS -->
+
+<div class="chart-grid">
+
+<div class="chart-card">
+
+<div class="chart-title">
+Daily Bet Amount Trend
+</div>
+
+<canvas id="betTrendChart"></canvas>
+
+</div>
+
+<div class="chart-card">
+
+<div class="chart-title">
+Daily Win vs Loss
+</div>
+
+<canvas id="winLossChart"></canvas>
+
+</div>
+
+<div class="chart-card">
+
+<div class="chart-title">
+Player Distribution
+</div>
+
+<canvas id="playerDistributionChart"></canvas>
+
+</div>
+
+</div>
+
+<!-- SUMMARY TABLE -->
+
+<div class="table-card">
+
+<h3 style="margin-bottom:15px;">
+Game Performance Summary
+</h3>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Game Name</th>
+<th>Total Players</th>
+<th>Total Spins</th>
+<th>Total Bet Amount</th>
+<th>Total Win Amount</th>
+<th>Total Loss Amount</th>
+<th>RTP</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>Sweet Bonanza</td>
+<td>182</td>
+<td>5,421</td>
+<td>$12,500</td>
+<td>$10,240</td>
+<td>$2,260</td>
+<td>81.92%</td>
+</tr>
+
+<tr>
+<td>Big Bass Bonanza</td>
+<td>145</td>
+<td>4,200</td>
+<td>$9,850</td>
+<td>$8,150</td>
+<td>$1,700</td>
+<td>82.74%</td>
+</tr>
+
+<tr>
+<td>Sugar Rush</td>
+<td>121</td>
+<td>3,980</td>
+<td>$8,120</td>
+<td>$6,900</td>
+<td>$1,220</td>
+<td>84.97%</td>
+</tr>
+
+<tr>
+<td>Gates of Olympus</td>
+<td>175</td>
+<td>4,870</td>
+<td>$11,420</td>
+<td>$9,880</td>
+<td>$1,540</td>
+<td>86.51%</td>
+</tr>
+
+<tr>
+<td>Jackpot Fish</td>
+<td>210</td>
+<td>6,200</td>
+<td>$14,850</td>
+<td>$11,900</td>
+<td>$2,950</td>
+<td>80.13%</td>
+</tr>
+
+<tr>
+<td>Sheriff Standoff</td>
+<td>95</td>
+<td>2,150</td>
+<td>$5,240</td>
+<td>$4,280</td>
+<td>$960</td>
+<td>81.68%</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- DAILY COINS REPORT MODULE -->
+<!-- ===================================================== -->
+
+<div id="dailycoins" class="module"><h2 class="section-title">
+Daily Coins Report
+</h2>
+
+<div class="filter-card">
+
+<input
+type="date"
+placeholder="Start Date">
+
+<input
+type="date"
+placeholder="End Date">
+
+<input
+list="gamesList"
+placeholder="Search Game Name">
+
+<datalist id="gamesList">
+
+<option value="Sweet Bonanza">
+<option value="Big Bass Bonanza">
+<option value="Sugar Rush">
+<option value="Gates of Olympus">
+<option value="Jackpot Fish">
+<option value="Sheriff Standoff">
+
+</datalist>
+
+<button class="primary-btn">
+Apply
+</button>
+
+<button class="primary-btn">
+Reset
+</button>
+
+<select class="export-select">
+
+<option>
+Select Export Format
+</option>
+
+<option>
+Excel
+</option>
+
+<option>
+CSV
+</option>
+
+<option>
+PDF
+</option>
+
+</select>
+
+<button class="download-btn">
+⬇ Download
+</button>
+
+</div>
+
+<div class="table-card">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Game Name</th>
+
+<th>Total Players</th>
+
+<th>Total Spins</th>
+
+<th>Total Bet Amount</th>
+
+<th>Total Win Amount</th>
+
+<th>Total Loss Amount</th>
+
+<th>RTP %</th>
+
+<th>Biggest Win Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>24-Jun-2026</td>
+<td>Sweet Bonanza</td>
+<td>182</td>
+<td>5421</td>
+<td>$12,500</td>
+<td>$10,240</td>
+<td>$2,260</td>
+<td>81.92%</td>
+<td>$1,240</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026</td>
+<td>Big Bass Bonanza</td>
+<td>145</td>
+<td>4200</td>
+<td>$9,850</td>
+<td>$8,150</td>
+<td>$1,700</td>
+<td>82.74%</td>
+<td>$950</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026</td>
+<td>Sugar Rush</td>
+<td>121</td>
+<td>3980</td>
+<td>$8,120</td>
+<td>$6,900</td>
+<td>$1,220</td>
+<td>84.97%</td>
+<td>$720</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026</td>
+<td>Gates of Olympus</td>
+<td>175</td>
+<td>4870</td>
+<td>$11,420</td>
+<td>$9,880</td>
+<td>$1,540</td>
+<td>86.51%</td>
+<td>$1,430</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026</td>
+<td>Jackpot Fish</td>
+<td>210</td>
+<td>6200</td>
+<td>$14,850</td>
+<td>$11,900</td>
+<td>$2,950</td>
+<td>80.13%</td>
+<td>$2,100</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026</td>
+<td>Sheriff Standoff</td>
+<td>95</td>
+<td>2150</td>
+<td>$5,240</td>
+<td>$4,280</td>
+<td>$960</td>
+<td>81.68%</td>
+<td>$640</td>
+</tr>
+
+<tr>
+<td>23-Jun-2026</td>
+<td>Sweet Bonanza</td>
+<td>176</td>
+<td>5188</td>
+<td>$11,850</td>
+<td>$9,420</td>
+<td>$2,430</td>
+<td>79.49%</td>
+<td>$1,180</td>
+</tr>
+
+<tr>
+<td>23-Jun-2026</td>
+<td>Big Bass Bonanza</td>
+<td>139</td>
+<td>4015</td>
+<td>$9,120</td>
+<td>$7,440</td>
+<td>$1,680</td>
+<td>81.58%</td>
+<td>$1,020</td>
+</tr>
+
+<tr>
+<td>23-Jun-2026</td>
+<td>Sugar Rush</td>
+<td>114</td>
+<td>3720</td>
+<td>$7,620</td>
+<td>$6,010</td>
+<td>$1,610</td>
+<td>78.87%</td>
+<td>$690</td>
+</tr>
+
+<tr>
+<td>23-Jun-2026</td>
+<td>Jackpot Fish</td>
+<td>205</td>
+<td>6011</td>
+<td>$14,110</td>
+<td>$11,150</td>
+<td>$2,960</td>
+<td>79.02%</td>
+<td>$2,420</td>
+</tr>
+
+<tr>
+<td>22-Jun-2026</td>
+<td>Sweet Bonanza</td>
+<td>160</td>
+<td>4820</td>
+<td>$10,920</td>
+<td>$8,900</td>
+<td>$2,020</td>
+<td>81.50%</td>
+<td>$1,310</td>
+</tr>
+
+<tr>
+<td>22-Jun-2026</td>
+<td>Gates of Olympus</td>
+<td>168</td>
+<td>4620</td>
+<td>$10,950</td>
+<td>$8,980</td>
+<td>$1,970</td>
+<td>82.01%</td>
+<td>$1,220</td>
+</tr>
+
+<tr>
+<td>22-Jun-2026</td>
+<td>Sugar Rush</td>
+<td>130</td>
+<td>4010</td>
+<td>$8,550</td>
+<td>$6,920</td>
+<td>$1,630</td>
+<td>80.93%</td>
+<td>$810</td>
+</tr>
+
+<tr>
+<td>22-Jun-2026</td>
+<td>Jackpot Fish</td>
+<td>215</td>
+<td>6405</td>
+<td>$15,800</td>
+<td>$12,450</td>
+<td>$3,350</td>
+<td>78.79%</td>
+<td>$2,550</td>
+</tr>
+
+<tr>
+<td>22-Jun-2026</td>
+<td>Sheriff Standoff</td>
+<td>102</td>
+<td>2480</td>
+<td>$5,880</td>
+<td>$4,820</td>
+<td>$1,060</td>
+<td>81.97%</td>
+<td>$720</td>
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="pagination">
+
+<button class="page-btn">
+Previous
+</button>
+
+<button class="page-btn">
+1
+</button>
+
+<button class="page-btn">
+2
+</button>
+
+<button class="page-btn">
+3
+</button>
+
+<button class="page-btn">
+Next
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- SPIN AUDIT LOG MODULE -->
+<!-- ===================================================== -->
+
+<div id="spinaudit" class="module"><h2 class="section-title">
+Spin Audit Log
+</h2>
+
+<div class="filter-card">
+
+<input
+type="date"
+placeholder="Start Date">
+
+<input
+type="date"
+placeholder="End Date">
+
+<input
+type="text"
+placeholder="Player Name">
+
+<input
+type="text"
+placeholder="Player ID">
+
+<input
+type="text"
+placeholder="Game Name">
+
+<input
+type="text"
+placeholder="Round ID">
+
+<button class="primary-btn">
+Apply
+</button>
+
+<button class="primary-btn">
+Reset
+</button>
+
+<select class="export-select">
+
+<option>
+Select Export Format
+</option>
+
+<option>
+Excel
+</option>
+
+<option>
+CSV
+</option>
+
+<option>
+PDF
+</option>
+
+</select>
+
+<button class="download-btn">
+⬇ Download
+</button>
+
+</div>
+
+<div class="table-card">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Spin Time</th>
+
+<th>Player Name</th>
+
+<th>Player ID</th>
+
+<th>Game Name</th>
+
+<th>Round ID</th>
+
+<th>Bet Amount</th>
+
+<th>Win Amount</th>
+
+<th>Loss Amount</th>
+
+<th>Net Result</th>
+
+<th>Balance Before</th>
+
+<th>Balance After</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>24-Jun-2026 10:15:22</td>
+<td>James88</td>
+<td>P10001</td>
+<td>Sweet Bonanza</td>
+<td>RND100001</td>
+<td>$5.00</td>
+<td>$12.50</td>
+<td>$0.00</td>
+<td class="positive">+$7.50</td>
+<td>$250.00</td>
+<td>$257.50</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:16:05</td>
+<td>AlexPro</td>
+<td>P10002</td>
+<td>Big Bass Bonanza</td>
+<td>RND100002</td>
+<td>$10.00</td>
+<td>$0.00</td>
+<td>$10.00</td>
+<td class="negative">-$10.00</td>
+<td>$340.00</td>
+<td>$330.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:17:15</td>
+<td>LuckyStar</td>
+<td>P10003</td>
+<td>Sugar Rush</td>
+<td>RND100003</td>
+<td>$2.00</td>
+<td>$18.00</td>
+<td>$0.00</td>
+<td class="positive">+$16.00</td>
+<td>$85.00</td>
+<td>$101.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:18:20</td>
+<td>KingPlayer</td>
+<td>P10004</td>
+<td>Jackpot Fish</td>
+<td>RND100004</td>
+<td>$20.00</td>
+<td>$0.00</td>
+<td>$20.00</td>
+<td class="negative">-$20.00</td>
+<td>$610.00</td>
+<td>$590.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:19:10</td>
+<td>VegasKing</td>
+<td>P10005</td>
+<td>Gates of Olympus</td>
+<td>RND100005</td>
+<td>$5.00</td>
+<td>$22.00</td>
+<td>$0.00</td>
+<td class="positive">+$17.00</td>
+<td>$110.00</td>
+<td>$127.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:20:15</td>
+<td>FishHunter</td>
+<td>P10006</td>
+<td>Jackpot Fish</td>
+<td>RND100006</td>
+<td>$25.00</td>
+<td>$0.00</td>
+<td>$25.00</td>
+<td class="negative">-$25.00</td>
+<td>$780.00</td>
+<td>$755.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:21:40</td>
+<td>Winner999</td>
+<td>P10007</td>
+<td>Sweet Bonanza</td>
+<td>RND100007</td>
+<td>$8.00</td>
+<td>$34.00</td>
+<td>$0.00</td>
+<td class="positive">+$26.00</td>
+<td>$195.00</td>
+<td>$221.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:22:25</td>
+<td>PowerSpin</td>
+<td>P10008</td>
+<td>Sheriff Standoff</td>
+<td>RND100008</td>
+<td>$12.00</td>
+<td>$0.00</td>
+<td>$12.00</td>
+<td class="negative">-$12.00</td>
+<td>$450.00</td>
+<td>$438.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:23:50</td>
+<td>GoldenFish</td>
+<td>P10009</td>
+<td>Sugar Rush</td>
+<td>RND100009</td>
+<td>$4.00</td>
+<td>$16.00</td>
+<td>$0.00</td>
+<td class="positive">+$12.00</td>
+<td>$140.00</td>
+<td>$152.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:24:15</td>
+<td>JackpotJoe</td>
+<td>P10010</td>
+<td>Jackpot Fish</td>
+<td>RND100010</td>
+<td>$30.00</td>
+<td>$85.00</td>
+<td>$0.00</td>
+<td class="positive">+$55.00</td>
+<td>$920.00</td>
+<td>$975.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:25:10</td>
+<td>SuperSpin</td>
+<td>P10011</td>
+<td>Big Bass Bonanza</td>
+<td>RND100011</td>
+<td>$15.00</td>
+<td>$0.00</td>
+<td>$15.00</td>
+<td class="negative">-$15.00</td>
+<td>$510.00</td>
+<td>$495.00</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:26:20</td>
+<td>MaxBet</td>
+<td>P10012</td>
+<td>Gates of Olympus</td>
+<td>RND100012</td>
+<td>$10.00</td>
+<td>$42.00</td>
+<td>$0.00</td>
+<td class="positive">+$32.00</td>
+<td>$325.00</td>
+<td>$357.00</td>
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="pagination">
+
+<button class="page-btn">
+Previous
+</button>
+
+<button class="page-btn">
+1
+</button>
+
+<button class="page-btn">
+2
+</button>
+
+<button class="page-btn">
+3
+</button>
+
+<button class="page-btn">
+Next
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- PLAYER REPORT MODULE -->
+<!-- ===================================================== -->
+
+<div id="playerreport" class="module"><h2 class="section-title">
+Player Report
+</h2>
+
+<div class="filter-card">
+
+<input
+type="text"
+placeholder="Search Username">
+
+<input
+type="text"
+placeholder="Search Player ID">
+
+<button class="primary-btn">
+Search
+</button>
+
+<button class="primary-btn">
+Reset
+</button>
+
+<select class="export-select">
+
+<option>
+Select Export Format
+</option>
+
+<option>
+Excel
+</option>
+
+<option>
+CSV
+</option>
+
+<option>
+PDF
+</option>
+
+</select>
+
+<button class="download-btn">
+⬇ Download
+</button>
+
+</div>
+
+<!-- PLAYER LIST -->
+
+<div class="table-card">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Username</th>
+<th>Player ID</th>
+<th>Current Balance</th>
+<th>Lifetime Bet</th>
+<th>Lifetime Win</th>
+<th>Lifetime Loss</th>
+<th>Lifetime RTP</th>
+<th>Last Login</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>James88</td>
+<td>P10001</td>
+<td>$2,850</td>
+<td>$185,450</td>
+<td>$156,250</td>
+<td>$29,200</td>
+<td>84.25%</td>
+<td>24-Jun-2026 10:30 PM</td>
+<td>
+<button
+class="primary-btn"
+onclick="openPlayerModal()">
+View Details
+</button>
+</td>
+</tr>
+
+<tr>
+<td>AlexPro</td>
+<td>P10002</td>
+<td>$1,420</td>
+<td>$92,850</td>
+<td>$75,200</td>
+<td>$17,650</td>
+<td>81.00%</td>
+<td>24-Jun-2026 09:55 PM</td>
+<td>
+<button
+class="primary-btn"
+onclick="openPlayerModal()">
+View Details
+</button>
+</td>
+</tr>
+
+<tr>
+<td>LuckyStar</td>
+<td>P10003</td>
+<td>$4,120</td>
+<td>$220,500</td>
+<td>$187,400</td>
+<td>$33,100</td>
+<td>84.98%</td>
+<td>24-Jun-2026 08:45 PM</td>
+<td>
+<button
+class="primary-btn"
+onclick="openPlayerModal()">
+View Details
+</button>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="pagination">
+
+<button class="page-btn">
+Previous
+</button>
+
+<button class="page-btn">
+1
+</button>
+
+<button class="page-btn">
+2
+</button>
+
+<button class="page-btn">
+Next
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ======================================== -->
+<!-- PLAYER DETAIL MODAL -->
+<!-- ======================================== -->
+
+<div
+id="playerModal"
+class="player-modal">
+
+<div class="player-modal-content">
+
+<span
+class="close-modal"
+onclick="closePlayerModal()">
+×
+</span>
+
+<h2 style="margin-bottom:20px;">
+Player Details
+</h2>
+
+<!-- ======================================== -->
+<!-- PLAYER INFORMATION -->
+<!-- ======================================== -->
+
+<div class="info-section">
+
+<div class="info-title">
+Player Information
+</div>
+
+<div class="info-grid">
+
+<!-- LEFT -->
+
+<div>
+
+<div class="info-item">
+<span class="info-label">Username</span>
+<span class="info-value">James88</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Player ID</span>
+<span class="info-value">P10001</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Current Balance</span>
+<span class="info-value">$2,850</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Registration Date</span>
+<span class="info-value">12-Jan-2026</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Last Login</span>
+<span class="info-value">24-Jun-2026 10:25 PM</span>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div>
+
+<div class="info-item">
+<span class="info-label">Lifetime Spins</span>
+<span class="info-value">54,230</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Lifetime Bet Amount</span>
+<span class="info-value">$185,450</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Lifetime Win Amount</span>
+<span class="info-value">$156,250</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Lifetime Loss Amount</span>
+<span class="info-value">$29,200</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Lifetime RTP</span>
+<span class="info-value">84.25%</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Highest Win</span>
+<span class="info-value">$4,850</span>
+</div>
+
+<div class="info-item">
+<span class="info-label">Highest Winning Session</span>
+<span class="info-value">$12,550</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ======================================== -->
+<!-- RECENT SPIN ACTIVITY -->
+<!-- ======================================== -->
+
+<div class="table-card">
+
+<h3 style="margin-bottom:15px;">
+Recent Spin Activity (Last 24 Hours)
+</h3>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date Time</th>
+<th>Game Name</th>
+<th>Round ID</th>
+<th>Bet Amount</th>
+<th>Win Amount</th>
+<th>Loss Amount</th>
+<th>Net Result</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>24-Jun-2026 10:15 PM</td>
+<td>Sweet Bonanza</td>
+<td>RND100001</td>
+<td>$5</td>
+<td>$12.50</td>
+<td>$0</td>
+<td class="positive">+$7.50</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:16 PM</td>
+<td>Big Bass Bonanza</td>
+<td>RND100002</td>
+<td>$10</td>
+<td>$0</td>
+<td>$10</td>
+<td class="negative">-$10</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:18 PM</td>
+<td>Jackpot Fish</td>
+<td>RND100004</td>
+<td>$20</td>
+<td>$0</td>
+<td>$20</td>
+<td class="negative">-$20</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<br>
+
+<!-- ======================================== -->
+<!-- PLAYER REPORT -->
+<!-- ======================================== -->
+
+<div class="table-card">
+
+<h3 style="margin-bottom:15px;">
+Player Report (Default Last 30 Days)
+</h3>
+
+<div class="filter-card">
+
+<input type="date">
+
+<input type="date">
+
+<button class="primary-btn">
+Apply
+</button>
+
+<select class="export-select">
+
+<option>
+Select Export Format
+</option>
+
+<option>
+Excel
+</option>
+
+<option>
+CSV
+</option>
+
+<option>
+PDF
+</option>
+
+</select>
+
+<button class="download-btn">
+⬇ Download
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date Time</th>
+<th>Game Name</th>
+<th>Round ID</th>
+<th>Bet Amount</th>
+<th>Win Amount</th>
+<th>Loss Amount</th>
+<th>Net Result</th>
+<th>Balance Before</th>
+<th>Balance After</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>24-Jun-2026 10:15 PM</td>
+<td>Sweet Bonanza</td>
+<td>RND100001</td>
+<td>$5</td>
+<td>$12.50</td>
+<td>$0</td>
+<td class="positive">+$7.50</td>
+<td>$250</td>
+<td>$257.50</td>
+</tr>
+
+<tr>
+<td>24-Jun-2026 10:16 PM</td>
+<td>Big Bass Bonanza</td>
+<td>RND100002</td>
+<td>$10</td>
+<td>$0</td>
+<td>$10</td>
+<td class="negative">-$10</td>
+<td>$340</td>
+<td>$330</td>
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="pagination">
+
+<button class="page-btn">
+10
+</button>
+
+<button class="page-btn">
+25
+</button>
+
+<button class="page-btn">
+50
+</button>
+
+<button class="page-btn">
+100
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ======================================== -->
+<!-- SETTINGS MODULE -->
+<!-- ======================================== -->
+
+<div id="settings" class="module"><h2 class="section-title">
+Settings
+</h2>
+
+<!-- ======================================== -->
+<!-- PROFILE SETTINGS -->
+<!-- ======================================== -->
+
+<div class="table-card">
+
+<h3 style="margin-bottom:20px;">
+Profile Information
+</h3>
+
+<div class="filter-card">
+
+<input
+type="text"
+value="Bilions Operator"
+placeholder="Full Name">
+
+<input
+type="email"
+value="operator@bilions.com"
+placeholder="Email">
+
+<input
+type="text"
+value="+1 555 123 4567"
+placeholder="Phone Number">
+
+<button class="primary-btn">
+Save Profile
+</button>
+
+</div>
+
+</div>
+
+<br>
+
+<!-- ======================================== -->
+<!-- PASSWORD SETTINGS -->
+<!-- ======================================== -->
+
+<div class="table-card">
+
+<h3 style="margin-bottom:20px;">
+Change Password
+</h3>
+
+<div class="filter-card">
+
+<input
+type="password"
+placeholder="Current Password">
+
+<input
+type="password"
+placeholder="New Password">
+
+<input
+type="password"
+placeholder="Confirm Password">
+
+<button class="primary-btn">
+Update Password
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ======================================== -->
+<!-- END SETTINGS -->
+<!-- ======================================== -->
+
+</div>
+
+</div>
+
+<!-- ======================================== -->
+<!-- PLAYER MODAL JS -->
+<!-- ======================================== -->
+
+<script>
+
+function openPlayerModal(){
+
+document
+.getElementById('playerModal')
+.style.display='block';
+
+}
+
+function closePlayerModal(){
+
+document
+.getElementById('playerModal')
+.style.display='none';
+
+}
+
+window.onclick=function(event){
+
+const modal=
+document.getElementById('playerModal');
+
+if(event.target===modal){
+
+modal.style.display='none';
+
+}
+
+}
+
+</script>
+
+<!-- ======================================== -->
+<!-- SIDEBAR NAVIGATION -->
+<!-- ======================================== -->
+
+<script>
+
+function showModule(moduleId){
+
+const modules=
+document.querySelectorAll('.module');
+
+modules.forEach(module=>{
+
+module.classList.remove('active');
+
+});
+
+document
+.getElementById(moduleId)
+.classList.add('active');
+
+const links=
+document.querySelectorAll('.sidebar-menu a');
+
+links.forEach(link=>{
+
+link.classList.remove('active');
+
+});
+
+event.target.classList.add('active');
+
+}
+
+</script>
+
+<!-- ======================================== -->
+<!-- DASHBOARD CHARTS -->
+<!-- ======================================== -->
+
+<script>
+
+/* BET TREND CHART */
+
+const betTrendCtx=
+document.getElementById('betTrendChart');
+
+if(betTrendCtx){
+
+new Chart(betTrendCtx,{
+
+type:'line',
+
+data:{
+
+labels:[
+'Mon',
+'Tue',
+'Wed',
+'Thu',
+'Fri',
+'Sat',
+'Sun'
+],
+
+datasets:[{
+
+label:'Bet Amount',
+
+data:[
+12500,
+14200,
+13800,
+16500,
+18200,
+19400,
+20800
+],
+
+borderColor:'#2563eb',
+
+backgroundColor:
+'rgba(37,99,235,0.10)',
+
+fill:true,
+
+tension:0.4
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+display:false
+}
+
+}
+
+}
+
+});
+
+}
+
+/* WIN LOSS CHART */
+
+const winLossCtx=
+document.getElementById('winLossChart');
+
+if(winLossCtx){
+
+new Chart(winLossCtx,{
+
+type:'bar',
+
+data:{
+
+labels:[
+'Mon',
+'Tue',
+'Wed',
+'Thu',
+'Fri',
+'Sat',
+'Sun'
+],
+
+datasets:[
+
+{
+
+label:'Win Amount',
+
+data:[
+9800,
+11200,
+10600,
+12800,
+14500,
+15700,
+16900
+],
+
+backgroundColor:'#16a34a'
+
+},
+
+{
+
+label:'Loss Amount',
+
+data:[
+2700,
+3000,
+3200,
+3700,
+3700,
+3700,
+3900
+],
+
+backgroundColor:'#ea580c'
+
+}
+
+]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+}
+
+/* PLAYER DISTRIBUTION */
+
+const playerDistributionCtx=
+document.getElementById('playerDistributionChart');
+
+if(playerDistributionCtx){
+
+new Chart(playerDistributionCtx,{
+
+type:'doughnut',
+
+data:{
+
+labels:[
+'Active Players',
+'Inactive Players'
+],
+
+datasets:[{
+
+data:[
+1248,
+534
+],
+
+backgroundColor:[
+
+'#2563eb',
+'#ea580c'
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+position:'bottom'
+}
+
+}
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
